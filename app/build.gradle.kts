@@ -1,1 +1,0 @@
-implementation("org.webrtc:google-webrtc:1.0.32006")
