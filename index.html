@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-900 text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Analytics Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="h-full overflow-hidden flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-slate-800 border-r border-slate-700/50 flex flex-col justify-between shrink-0 hidden md:flex">
+        <div>
+            <!-- Logo Header -->
+            <div class="h-16 flex items-center px-6 border-b border-slate-700/50 gap-3">
+                <div class="p-2 bg-indigo-600 rounded-lg">
+                    <i data-lucide="activity" class="w-5 h-5 text-white"></i>
+                </div>
+                <span class="font-bold text-lg text-white tracking-wide">Apex Analytics</span>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="p-4 space-y-1">
+                <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-indigo-600/10 text-indigo-400 font-medium">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 transition">
+                    <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 transition">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                    <span>Customers</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 transition">
+                    <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                    <span>Orders</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 transition">
+                    <i data-lucide="settings" class="w-5 h-5"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- System Status Component -->
+        <div class="p-4 m-4 bg-slate-900/50 rounded-xl border border-slate-700/50">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-semibold text-slate-400 uppercase">System Status</span>
+                <span class="flex h-2 w-2 relative">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+            </div>
+            <p class="text-sm text-slate-200 font-medium">All Services Operational</p>
+            <p class="text-xs text-slate-400 mt-1">Uptime: 99.98%</p>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+
+        <!-- Top Header Navigation -->
+        <header class="h-16 bg-slate-800/80 backdrop-blur-md border-b border-slate-700/50 flex items-center justify-between px-6 z-10">
+            <div class="flex items-center gap-4">
+                <div class="relative w-64 md:w-80">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" placeholder="Search metrics, reports..." 
+                           class="w-full pl-9 pr-4 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-sm text-slate-200 placeholder-slate-400 focus:outline-none focus:border-indigo-500 transition">
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button class="p-2 text-slate-400 hover:text-slate-200 hover:bg-slate-700/50 rounded-lg relative">
+                    <i data-lucide="bell" class="w-5 h-5"></i>
+                    <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-indigo-500 rounded-full"></span>
+                </button>
+                <div class="h-6 w-px bg-slate-700"></div>
+                <div class="flex items-center gap-3">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" 
+                         alt="User Avatar" class="w-8 h-8 rounded-full object-cover ring-2 ring-indigo-500/50">
+                    <div class="hidden sm:block text-left">
+                        <div class="text-sm font-medium text-slate-200">Alex Morgan</div>
+                        <div class="text-xs text-slate-400">Lead Analyst</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dynamic Body Content -->
+        <main class="flex-1 overflow-y-auto p-6 space-y-6">
+
+            <!-- Title & Quick Filters -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h1 class="text-2xl font-bold text-white">Executive Dashboard</h1>
+                    <p class="text-sm text-slate-400">Real-time revenue performance and traffic distribution metrics.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button class="px-3 py-1.5 bg-slate-800 border border-slate-700 text-slate-300 text-sm font-medium rounded-lg hover:bg-slate-700 transition">Export CSV</button>
+                    <button class="px-3 py-1.5 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-500 shadow-lg shadow-indigo-600/30 transition">Create Report</button>
+                </div>
+            </div>
+
+            <!-- Metric Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Card 1 -->
+                <div class="p-5 bg-slate-800 rounded-xl border border-slate-700/50 shadow-sm">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Revenue</p>
+                            <h3 class="text-2xl font-bold text-white mt-1">$128,430.00</h3>
+                        </div>
+                        <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg">
+                            <i data-lucide="dollar-sign" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center text-xs text-emerald-400 font-medium">
+                        <i data-lucide="trending-up" class="w-4 h-4 mr-1"></i>
+                        <span>+12.5%</span>
+                        <span class="text-slate-400 ml-1.5">vs last month</span>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="p-5 bg-slate-800 rounded-xl border border-slate-700/50 shadow-sm">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Active Users</p>
+                            <h3 class="text-2xl font-bold text-white mt-1">24,512</h3>
+                        </div>
+                        <div class="p-2 bg-indigo-500/10 text-indigo-400 rounded-lg">
+                            <i data-lucide="users" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center text-xs text-emerald-400 font-medium">
+                        <i data-lucide="trending-up" class="w-4 h-4 mr-1"></i>
+                        <span>+8.2%</span>
+                        <span class="text-slate-400 ml-1.5">vs last month</span>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="p-5 bg-slate-800 rounded-xl border border-slate-700/50 shadow-sm">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Conversion Rate</p>
+                            <h3 class="text-2xl font-bold text-white mt-1">3.42%</h3>
+                        </div>
+                        <div class="p-2 bg-cyan-500/10 text-cyan-400 rounded-lg">
+                            <i data-lucide="percent" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center text-xs text-rose-400 font-medium">
+                        <i data-lucide="trending-down" class="w-4 h-4 mr-1"></i>
+                        <span>-0.4%</span>
+                        <span class="text-slate-400 ml-1.5">vs last month</span>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="p-5 bg-slate-800 rounded-xl border border-slate-700/50 shadow-sm">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Avg Order Value</p>
+                            <h3 class="text-2xl font-bold text-white mt-1">$84.20</h3>
+                        </div>
+                        <div class="p-2 bg-amber-500/10 text-amber-400 rounded-lg">
+                            <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center text-xs text-emerald-400 font-medium">
+                        <i data-lucide="trending-up" class="w-4 h-4 mr-1"></i>
+                        <span>+4.1%</span>
+                        <span class="text-slate-400 ml-1.5">vs last month</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visualization Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Line Chart Component -->
+                <div class="lg:col-span-2 p-5 bg-slate-800 rounded-xl border border-slate-700/50">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-base font-semibold text-white">Revenue Overview</h2>
+                        <select class="bg-slate-900 border border-slate-700 text-xs text-slate-300 rounded-md px-2 py-1 focus:outline-none">
+                            <option>Last 7 Days</option>
+                            <option selected>Last 30 Days</option>
+                            <option>Last 90 Days</option>
+                        </select>
+                    </div>
+                    <div class="h-72 w-full">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Doughnut Chart Component -->
+                <div class="p-5 bg-slate-800 rounded-xl border border-slate-700/50 flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-base font-semibold text-white">Traffic Sources</h2>
+                        <i data-lucide="more-horizontal" class="w-5 h-5 text-slate-400 cursor-pointer"></i>
+                    </div>
+                    <div class="h-60 relative flex items-center justify-center">
+                        <canvas id="trafficChart"></canvas>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 text-center mt-4 pt-4 border-t border-slate-700/50">
+                        <div>
+                            <span class="block text-xs text-slate-400">Direct</span>
+                            <span class="text-sm font-semibold text-slate-200">40%</span>
+                        </div>
+                        <div>
+                            <span class="block text-xs text-slate-400">Organic</span>
+                            <span class="text-sm font-semibold text-slate-200">35%</span>
+                        </div>
+                        <div>
+                            <span class="block text-xs text-slate-400">Referral</span>
+                            <span class="text-sm font-semibold text-slate-200">25%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Table Section -->
+            <div class="bg-slate-800 rounded-xl border border-slate-700/50 overflow-hidden">
+                <div class="p-5 border-b border-slate-700/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <h2 class="text-base font-semibold text-white">Recent Transactions</h2>
+                    <input type="text" id="tableSearch" placeholder="Filter transactions..." 
+                           class="px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-xs text-slate-200 focus:outline-none focus:border-indigo-500 w-full sm:w-64">
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-900/50 border-b border-slate-700/50 text-xs text-slate-400 font-semibold uppercase tracking-wider">
+                                <th class="p-4">Customer</th>
+                                <th class="p-4">Status</th>
+                                <th class="p-4">Date</th>
+                                <th class="p-4 text-right">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionBody" class="divide-y divide-slate-700/50 text-sm">
+                            <!-- Dynamic Content -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Application Initialization Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Lucide Icons
+            lucide.createIcons();
+
+            // 1. Revenue Line Chart Setup
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            const revenueGradient = revenueCtx.createLinearGradient(0, 0, 0, 300);
+            revenueGradient.addColorStop(0, 'rgba(99, 102, 241, 0.35)');
+            revenueGradient.addColorStop(1, 'rgba(99, 102, 241, 0.0)');
+
+            new Chart(revenueCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                    datasets: [{
+                        label: 'Revenue ($)',
+                        data: [12000, 19000, 15000, 22000, 30000, 28000, 35000, 42000, 39000, 48000],
+                        borderColor: '#6366f1',
+                        borderWidth: 2,
+                        fill: true,
+                        backgroundColor: revenueGradient,
+                        tension: 0.4,
+                        pointRadius: 0,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#94a3b8', font: { family: 'Inter', size: 11 } }
+                        },
+                        y: {
+                            grid: { color: 'rgba(51, 65, 85, 0.5)' },
+                            ticks: { color: '#94a3b8', font: { family: 'Inter', size: 11 } }
+                        }
+                    }
+                }
+            });
+
+            // 2. Traffic Doughnut Chart Setup
+            const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+            new Chart(trafficCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Direct', 'Organic', 'Referral'],
+                    datasets: [{
+                        data: [40, 35, 25],
+                        backgroundColor: ['#6366f1', '#06b6d4', '#10b981'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // 3. Transactions Data & Logic
+            const transactions = [
+                { name: "Acme Corp", email: "billing@acme.com", status: "Completed", date: "Oct 28, 2026", amount: "$1,200.00" },
+                { name: "DevOps Inc", email: "support@devops.io", status: "Pending", date: "Oct 27, 2026", amount: "$850.50" },
+                { name: "CyberDyne Systems", email: "admin@cyberdyne.com", status: "Completed", date: "Oct 26, 2026", amount: "$4,300.00" },
+                { name: "Starlight Media", email: "contact@starlight.net", status: "Failed", date: "Oct 25, 2026", amount: "$320.00" },
+                { name: "Nexus Labs", email: "finance@nexus.io", status: "Completed", date: "Oct 24, 2026", amount: "$2,150.00" }
+            ];
+
+            function renderTable(data) {
+                const tableBody = document.getElementById('transactionBody');
+                tableBody.innerHTML = '';
+
+                data.forEach(item => {
+                    let statusStyle = '';
+                    switch(item.status) {
+                        case 'Completed':
+                            statusStyle = 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+                            break;
+                        case 'Pending':
+                            statusStyle = 'bg-amber-500/10 text-amber-400 border-amber-500/20';
+                            break;
+                        case 'Failed':
+                            statusStyle = 'bg-rose-500/10 text-rose-400 border-rose-500/20';
+                            break;
+                    }
+
+                    const row = `
+                        <tr class="hover:bg-slate-700/30 transition">
+                            <td class="p-4">
+                                <div class="font-medium text-slate-200">${item.name}</div>
+                                <div class="text-xs text-slate-400">${item.email}</div>
+                            </td>
+                            <td class="p-4">
+                                <span class="px-2.5 py-1 text-xs font-semibold rounded-full border ${statusStyle}">
+                                    ${item.status}
+                                </span>
+                            </td>
+                            <td class="p-4 text-slate-400 text-xs">${item.date}</td>
+                            <td class="p-4 text-right font-medium text-slate-200">${item.amount}</td>
+                        </tr>
+                    `;
+                    tableBody.insertAdjacentHTML('beforeend', row);
+                });
+            }
+
+            renderTable(transactions);
+
+            document.getElementById('tableSearch')?.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                const filtered = transactions.filter(t => 
+                    t.name.toLowerCase().includes(query) || 
+                    t.email.toLowerCase().includes(query) ||
+                    t.status.toLowerCase().includes(query)
+                );
+                renderTable(filtered);
+            });
+        });
+    </script>
+</body>
+</html>
